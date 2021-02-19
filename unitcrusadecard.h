@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "unitcrusadedata.h"
+
 namespace Ui {
 class UnitCrusadeCard;
 }
@@ -12,13 +14,20 @@ class UnitCrusadeCard : public QWidget
     Q_OBJECT
 
 public:
-    explicit UnitCrusadeCard(QWidget *parent = nullptr);
+    explicit UnitCrusadeCard(UnitCrusadeData *data, QWidget *parent = nullptr);
     ~UnitCrusadeCard();
 
     bool eventFilter(QObject *o, QEvent *ev);
 
+private slots:
+    void OnNameChanged(QString value);
+    void OnBattleFieldRoleChanged(QString value);
+
 private:
+    void UpdateView();
+    void ConnectLinks();
     Ui::UnitCrusadeCard *ui;
+    UnitCrusadeData *data;
 };
 
 #endif // UNITCRUSADECARD_H
