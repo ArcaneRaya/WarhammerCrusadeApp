@@ -12,6 +12,9 @@ SOURCES += \
     intvaluelineedit.cpp \
     main.cpp \
     mainwindow.cpp \
+    orderofbattle.cpp \
+    orderofbattledata.cpp \
+    orderofbattleunitsmodel.cpp \
     unitcrusadecard.cpp \
     unitcrusadedata.cpp
 
@@ -19,11 +22,15 @@ HEADERS += \
     intvaluelineedit.h \
     json.hpp \
     mainwindow.h \
+    orderofbattle.h \
+    orderofbattledata.h \
+    orderofbattleunitsmodel.h \
     unitcrusadecard.h \
     unitcrusadedata.h
 
 FORMS += \
     mainwindow.ui \
+    orderofbattle.ui \
     unitcrusadecard.ui
 
 # Default rules for deployment.

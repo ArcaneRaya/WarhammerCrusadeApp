@@ -31,14 +31,22 @@ bool UnitCrusadeCard::eventFilter(QObject *targetQObject, QEvent *currentEvent)
     return QObject::eventFilter(targetQObject, currentEvent);
 }
 
+void UnitCrusadeCard::OnUnitSelection(UnitCrusadeData *unit)
+{
+    this->data = unit;
+    UpdateView();
+}
+
 void UnitCrusadeCard::OnNameChanged(QString value)
 {
     this->data->name = value.toStdString();
+    this->OnDisplayValueChanged();
 }
 
 void UnitCrusadeCard::OnBattleFieldRoleChanged(QString value)
 {
     this->data->battleFieldRole = value.toStdString();
+    this->OnDisplayValueChanged();
 }
 
 void UnitCrusadeCard::UpdateView()

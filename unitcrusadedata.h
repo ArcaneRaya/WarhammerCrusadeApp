@@ -33,6 +33,13 @@ public:
     int enemyUnitsDestroyedPsychic;
     int enemyUnitsDestroyedRanged;
     int enemyUnitsDestroyedMelee;
+    int enemyUnitsDestroyedBattleRound;
+    int enemyUnitsDestroyedPsychicBattleRound;
+    int enemyUnitsDestroyedRangedBattleRound;
+    int enemyUnitsDestroyedMeleeBattleRound;
+    int agenda1TallyBattleRound;
+    int agenda2TallyBattleRound;
+    int agenda3TallyBattleRound;
 
     // rank
     std::string rank;

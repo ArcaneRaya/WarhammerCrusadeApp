@@ -19,6 +19,12 @@ public:
 
     bool eventFilter(QObject *o, QEvent *ev);
 
+signals:
+    void OnDisplayValueChanged();
+
+public slots:
+    void OnUnitSelection(UnitCrusadeData *unit);
+
 private slots:
     void OnNameChanged(QString value);
     void OnBattleFieldRoleChanged(QString value);
