@@ -17,6 +17,7 @@ SOURCES += \
 
 HEADERS += \
     intvaluelineedit.h \
+    json.hpp \
     mainwindow.h \
     unitcrusadecard.h \
     unitcrusadedata.h
