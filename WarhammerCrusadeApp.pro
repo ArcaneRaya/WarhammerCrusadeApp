@@ -9,14 +9,21 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    intvaluelineedit.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    unitcrusadecard.cpp \
+    unitcrusadedata.cpp
 
 HEADERS += \
-    mainwindow.h
+    intvaluelineedit.h \
+    mainwindow.h \
+    unitcrusadecard.h \
+    unitcrusadedata.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    unitcrusadecard.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
