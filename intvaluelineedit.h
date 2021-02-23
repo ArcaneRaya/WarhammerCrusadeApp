@@ -12,13 +12,21 @@ class IntValueLineEdit : public QLineEdit
 
 public:
     IntValueLineEdit(QWidget *parent = nullptr);
+    int GetIntValue();
+
+signals:
+    void IntValueChanged(int value);
 
 public slots:
     void IncreaseValue();
     void DecreaseValue();
 
+private slots:
+    void OnValueChanged(QString value);
+
 private:
     const QIntValidator * validator;
+    int intValue;
 };
 
 #endif // INTVALUELINEEDIT_H

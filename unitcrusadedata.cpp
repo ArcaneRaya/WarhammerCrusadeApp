@@ -16,12 +16,22 @@ UnitCrusadeData::UnitCrusadeData()
     this->agenda2TallyBattleRound = 0;
     this->agenda3TallyBattleRound = 0;
 
+    this->rank = "BATTLE-READY";
     this->battlesPlayed = 0;
     this->battlesSurvived = 0;
-    this->enemyUnitsDestroyed = 0;
     this->enemyUnitsDestroyedPsychic = 0;
     this->enemyUnitsDestroyedRanged = 0;
     this->enemyUnitsDestroyedMelee = 0;
 
     this->markedForGreatnessTally = 0;
+}
+
+int UnitCrusadeData::GetEnemyUnitsDestroyedTotal()
+{
+    return enemyUnitsDestroyedMelee + enemyUnitsDestroyedPsychic + enemyUnitsDestroyedRanged;
+}
+
+int UnitCrusadeData::GetEnemyUnitsDestroyedBattleRoundTotal()
+{
+    return enemyUnitsDestroyedMeleeBattleRound + enemyUnitsDestroyedPsychicBattleRound + enemyUnitsDestroyedRangedBattleRound;
 }

@@ -8,6 +8,8 @@ class UnitCrusadeData
 {
 public:
     UnitCrusadeData();
+    int GetEnemyUnitsDestroyedTotal();
+    int GetEnemyUnitsDestroyedBattleRoundTotal();
 
     // basic info
     std::string name;
@@ -29,11 +31,9 @@ public:
     // combat tallies
     int battlesPlayed;
     int battlesSurvived;
-    int enemyUnitsDestroyed;
     int enemyUnitsDestroyedPsychic;
     int enemyUnitsDestroyedRanged;
     int enemyUnitsDestroyedMelee;
-    int enemyUnitsDestroyedBattleRound;
     int enemyUnitsDestroyedPsychicBattleRound;
     int enemyUnitsDestroyedRangedBattleRound;
     int enemyUnitsDestroyedMeleeBattleRound;
@@ -67,10 +67,15 @@ public:
             // combat tallies
             battlesPlayed,
             battlesSurvived,
-            enemyUnitsDestroyed,
             enemyUnitsDestroyedPsychic,
             enemyUnitsDestroyedRanged,
             enemyUnitsDestroyedMelee,
+            enemyUnitsDestroyedPsychicBattleRound,
+            enemyUnitsDestroyedRangedBattleRound,
+            enemyUnitsDestroyedMeleeBattleRound,
+            agenda1TallyBattleRound,
+            agenda2TallyBattleRound,
+            agenda3TallyBattleRound,
             // rank
             rank,
             markedForGreatnessTally,
