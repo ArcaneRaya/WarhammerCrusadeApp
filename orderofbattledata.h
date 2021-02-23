@@ -8,6 +8,10 @@ class OrderOfBattleData
 {
 public:
     OrderOfBattleData();
+    bool HasUnsavedChanges();
+    void SetUnsaved();
+    void SetSaved();
+
     std::string name;
     std::string faction;
 
@@ -17,7 +21,6 @@ public:
     int supplyLimit;
 
     std::vector<UnitCrusadeData> units;
-
 
     NLOHMANN_DEFINE_TYPE_INTRUSIVE(
             OrderOfBattleData,
@@ -29,6 +32,8 @@ public:
             supplyLimit,
             units
             )
+private:
+    bool hasUnsavedChanges;
 };
 
 #endif // ORDEROFBATTLEDATA_H

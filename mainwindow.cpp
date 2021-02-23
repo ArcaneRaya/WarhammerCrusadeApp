@@ -55,11 +55,19 @@ void MainWindow::on_actionSave_triggered()
     mFile.flush();
     mFile.close();
 
+    orderOfBattleData->SetSaved();
+
     ui->statusbar->showMessage("saved");
 }
 
 void MainWindow::on_actionOpen_triggered()
 {
+    if (orderOfBattleData->HasUnsavedChanges())
+    {
+        ui->statusbar->showMessage("Order of Battle has unsaved changes");
+        return;
+    }
+
     QString filePath = QFileDialog::getOpenFileName(this, QString(), QString(),"JSON files (*.json)");
     if (filePath.isEmpty()){
         ui->statusbar->showMessage("need valid file path");

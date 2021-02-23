@@ -56,32 +56,38 @@ void OrderOfBattle::UpdateView()
 
 void OrderOfBattle::OnNameChanged(QString value)
 {
-    this->data->name = value.toStdString();
+    data->name = value.toStdString();
+    data->SetUnsaved();
 }
 
 void OrderOfBattle::OnFactionChanged(QString value)
 {
-    this->data->faction = value.toStdString();
+    data->faction = value.toStdString();
+    data->SetUnsaved();
 }
 
 void OrderOfBattle::OnBattleTallyChanged(QString value)
 {
-    this->data->battleTally = value.toInt();
+    data->battleTally = value.toInt();
+    data->SetUnsaved();
 }
 
 void OrderOfBattle::OnBattlesWonChanged(QString value)
 {
-    this->data->battlesWon = value.toInt();
+    data->battlesWon = value.toInt();
+    data->SetUnsaved();
 }
 
 void OrderOfBattle::OnRequisitionPointsChanged(QString value)
 {
-    this->data->requisitionPoints = value.toInt();
+    data->requisitionPoints = value.toInt();
+    data->SetUnsaved();
 }
 
 void OrderOfBattle::OnSupplyLimitChanged(QString value)
 {
-    this->data->supplyLimit = value.toInt();
+    data->supplyLimit = value.toInt();
+    data->SetUnsaved();
 }
 
 void OrderOfBattle::OnTableItemClicked(const QModelIndex &index)

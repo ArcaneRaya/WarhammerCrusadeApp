@@ -37,153 +37,250 @@ void UnitCrusadeCard::OnUnitSelection(UnitCrusadeData *unit)
 
 void UnitCrusadeCard::OnNameChanged(const QString value)
 {
-    data->name = value.toStdString();
-    OnDisplayValueChanged();
+    auto newValue = value.toStdString();
+    if (data->name != newValue){
+        data->name = newValue;
+        data->SetUnsaved();
+        OnDisplayValueChanged();
+    }
 }
 
 void UnitCrusadeCard::OnBattleFieldRoleChanged(const QString value)
 {
-    data->battleFieldRole = value.toStdString();
-    OnDisplayValueChanged();
+    auto newValue = value.toStdString();
+    if (data->battleFieldRole != newValue){
+        data->battleFieldRole = newValue;
+        data->SetUnsaved();
+        OnDisplayValueChanged();
+    }
 }
 
 void UnitCrusadeCard::OnCrusadeFactionChanged(const QString value)
 {
-    data->crusadeFaction = value.toStdString();
+    auto newValue = value.toStdString();
+    if(data->crusadeFaction != newValue){
+        data->crusadeFaction = newValue;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnSelectableKeywordsChanged(const QString value)
 {
-    data->selectableKeywords = value.toStdString();
+    auto newValue = value.toStdString();
+    if(data->selectableKeywords != newValue){
+        data->selectableKeywords = newValue;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnUnitTypeChanged(const QString value)
 {
-    data->unitType = value.toStdString();
-    OnDisplayValueChanged();
+    auto newValue = value.toStdString();
+    if(data->unitType != newValue){
+        data->unitType = newValue;
+        data->SetUnsaved();
+        OnDisplayValueChanged();
+    }
 }
 
 void UnitCrusadeCard::OnEquipmentChanged(const QString value)
 {
-    data->equipment = value.toStdString();
+    auto newValue = value.toStdString();
+    if(data->equipment != newValue){
+        data->equipment = newValue;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnPsychicPowersChanged(const QString value)
 {
-    data->psychicPowers = value.toStdString();
+    auto newValue = value.toStdString();
+    if(data->psychicPowers != newValue){
+        data->psychicPowers = newValue;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnWarlordTraitsChanged(const QString value)
 {
-    data->warlordTraits = value.toStdString();
+    auto newValue = value.toStdString();
+    if(data->warlordTraits != newValue){
+        data->warlordTraits = newValue;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnRelicsChanged(const QString value)
 {
-    data->relics = value.toStdString();
+    auto newValue = value.toStdString();
+    if(data->relics != newValue){
+        data->relics = newValue;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnPowerRatingChanged(int value)
 {
-    data->powerRating = value;
-    OnDisplayValueChanged();
+    if (data->powerRating != value){
+        data->powerRating = value;
+        data->SetUnsaved();
+        OnDisplayValueChanged();
+    }
 }
 
 void UnitCrusadeCard::OnExperiencePointsChanged(int value)
 {
-    data->experiencePoints = value;
+    if (data->experiencePoints != value){
+        data->experiencePoints = value;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnCrusadePointsChanged(int value)
 {
-    data->crusadePoints = value;
-    OnDisplayValueChanged();
+    if(data->crusadePoints != value){
+        data->crusadePoints = value;
+        data->SetUnsaved();
+        OnDisplayValueChanged();
+    }
 }
 
 void UnitCrusadeCard::OnUpgradesChanged()
 {
-    data->upgrades = ui->plainTextEditUpgrades->toPlainText().toStdString();
+    auto newValue = ui->plainTextEditUpgrades->toPlainText().toStdString();
+    if (data->upgrades != newValue){
+        data->upgrades = newValue;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnBattlesPlayedChanged(int value)
 {
-    data->battlesPlayed = value;
+    if (data->battlesPlayed != value){
+        data->battlesPlayed = value;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnBattlesSurvivedChanged(int value)
 {
-    data->battlesSurvived = value;
+    if (data->battlesSurvived != value){
+        data->battlesSurvived = value;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnEnemyUnitsDestroyedPsychicBattleroundChanged(int value)
 {
-    data->enemyUnitsDestroyedPsychicBattleRound = value;
-    UpdateEnemyUnitsDestroyedBattleRoundTotal();
+    if (data->enemyUnitsDestroyedPsychicBattleRound != value){
+        data->enemyUnitsDestroyedPsychicBattleRound = value;
+        data->SetUnsaved();
+        UpdateEnemyUnitsDestroyedBattleRoundTotal();
+    }
 }
 
 void UnitCrusadeCard::OnEnemyUnitsDestroyedRangedBattleroundChanged(int value)
 {
-    data->enemyUnitsDestroyedRangedBattleRound = value;
-    UpdateEnemyUnitsDestroyedBattleRoundTotal();
+    if (data->enemyUnitsDestroyedRangedBattleRound != value){
+        data->enemyUnitsDestroyedRangedBattleRound = value;
+        data->SetUnsaved();
+        UpdateEnemyUnitsDestroyedBattleRoundTotal();
+    }
 }
 
 void UnitCrusadeCard::OnEnemyUnitsDestroyedMeleeBattleroundChanged(int value)
 {
-    data->enemyUnitsDestroyedMeleeBattleRound = value;
-    UpdateEnemyUnitsDestroyedBattleRoundTotal();
+    if (data->enemyUnitsDestroyedMeleeBattleRound != value){
+        data->enemyUnitsDestroyedMeleeBattleRound = value;
+        data->SetUnsaved();
+        UpdateEnemyUnitsDestroyedBattleRoundTotal();
+    }
 }
 
 void UnitCrusadeCard::OnEnemyUnitsDestroyedPsychicChanged(int value)
 {
-    data->enemyUnitsDestroyedPsychic = value;
-    UpdateEnemyUnitsDestroyedTotal();
+    if (data->enemyUnitsDestroyedPsychic != value){
+        data->enemyUnitsDestroyedPsychic = value;
+        data->SetUnsaved();
+        UpdateEnemyUnitsDestroyedTotal();
+    }
 }
 
 void UnitCrusadeCard::OnEnemyUnitsDestroyedRangedChanged(int value)
 {
-    data->enemyUnitsDestroyedRanged = value;
-    UpdateEnemyUnitsDestroyedTotal();
+    if (data->enemyUnitsDestroyedRanged != value){
+        data->enemyUnitsDestroyedRanged = value;
+        data->SetUnsaved();
+        UpdateEnemyUnitsDestroyedTotal();
+    }
 }
 
 void UnitCrusadeCard::OnEnemyUnitsDestroyedMeleeChanged(int value)
 {
-    data->enemyUnitsDestroyedMelee = value;
-    UpdateEnemyUnitsDestroyedTotal();
+    if (data->enemyUnitsDestroyedMelee != value){
+        data->enemyUnitsDestroyedMelee = value;
+        data->SetUnsaved();
+        UpdateEnemyUnitsDestroyedTotal();
+    }
 }
 
 void UnitCrusadeCard::OnAgenda1TallyChanged(int value)
 {
-    data->agenda1TallyBattleRound = value;
+    if (data->agenda1TallyBattleRound != value){
+        data->agenda1TallyBattleRound = value;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnAgenda2TallyChanged(int value)
 {
-    data->agenda2TallyBattleRound = value;
+    if (data->agenda2TallyBattleRound != value){
+        data->agenda2TallyBattleRound = value;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnAgenda3TallyChanged(int value)
 {
-    data->agenda3TallyBattleRound = value;
+    if (data->agenda3TallyBattleRound != value){
+        data->agenda3TallyBattleRound = value;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnRankChanged(const QString value)
 {
-    data->rank = value.toStdString();
+    auto newValue = value.toStdString();
+    if(data->rank != newValue){
+        data->rank = newValue;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnMarkedForGreatnessTallyChanged(int value)
 {
-    data->markedForGreatnessTally = value;
+    if (data->markedForGreatnessTally != value){
+        data->markedForGreatnessTally = value;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnBattleHonoursChanged()
 {
-    data->battleHonours =  ui->plainTextEditBattleHonours->toPlainText().toStdString();
+    auto newValue = ui->plainTextEditBattleHonours->toPlainText().toStdString();
+    if (data->battleHonours != newValue) {
+        data->battleHonours = newValue;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::OnBattleScarsChanged()
 {
-    data->battleScars =  ui->plainTextEditBattleScars->toPlainText().toStdString();
+    auto newValue = ui->plainTextEditBattleScars->toPlainText().toStdString();
+    if (data->battleScars != newValue) {
+        data->battleScars = newValue;
+        data->SetUnsaved();
+    }
 }
 
 void UnitCrusadeCard::UpdateView()
