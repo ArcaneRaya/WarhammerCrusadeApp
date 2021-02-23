@@ -7,20 +7,31 @@ OrderOfBattle::OrderOfBattle(OrderOfBattleData *data, QWidget *parent) :
     ui(new Ui::OrderOfBattle)
 {
     ui->setupUi(this);
-    this->data = data;
-
     model = new OrderOfBattleUnitsModel(data, this);
 
-    ui->tableViewUnits->setModel(model);
     ConnectLinks();
+    SetOrderOfBattleData(data);
 
-    UpdateView();
-    ui->tableViewUnits->resizeColumnsToContents();
+    ui->tableViewUnits->setModel(model);
 }
 
 OrderOfBattle::~OrderOfBattle()
 {
     delete ui;
+}
+
+void OrderOfBattle::SetOrderOfBattleData(OrderOfBattleData *newData)
+{
+    this->data = newData;
+    model->ReplaceData(data);
+
+    UpdateView();
+
+    ui->tableViewUnits->resizeColumnsToContents();
+
+    if (data->units.size() > 0){
+        UnitSelected(&data->units[0]);
+    }
 }
 
 void OrderOfBattle::UpdateView()
@@ -81,6 +92,7 @@ void OrderOfBattle::OnTableItemClicked(const QModelIndex &index)
 void OrderOfBattle::OnPushButtonAddUnitClicked()
 {
     model->AddUnit();
+    UnitSelected(&data->units[data->units.size()-1]);
 }
 
 void OrderOfBattle::ConnectLinks()

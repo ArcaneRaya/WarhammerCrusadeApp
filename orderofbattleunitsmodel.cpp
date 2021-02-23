@@ -91,6 +91,13 @@ void OrderOfBattleUnitsModel::AddUnit()
     endInsertRows();
 }
 
+void OrderOfBattleUnitsModel::ReplaceData(OrderOfBattleData *newData)
+{
+    beginResetModel();
+    orderOfBattleData = newData;
+    endResetModel();
+}
+
 QModelIndex OrderOfBattleUnitsModel::index(int row, int column, const QModelIndex &parent) const
 {
     return createIndex(row, column, nullptr);

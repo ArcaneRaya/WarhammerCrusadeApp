@@ -16,6 +16,7 @@ class OrderOfBattle : public QWidget
 public:
     explicit OrderOfBattle(OrderOfBattleData *data, QWidget *parent = nullptr);
     ~OrderOfBattle();
+    void SetOrderOfBattleData(OrderOfBattleData *data);
 
 signals:
     void UnitSelected(UnitCrusadeData *unit);

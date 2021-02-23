@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "unitcrusadedata.h"
 #include "orderofbattledata.h"
+#include "unitcrusadecard.h"
+#include "orderofbattle.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,5 +26,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     OrderOfBattleData * orderOfBattleData;
+    OrderOfBattle * orderOfBattle;
+    UnitCrusadeCard * unitCrusadeCard;
 };
 #endif // MAINWINDOW_H

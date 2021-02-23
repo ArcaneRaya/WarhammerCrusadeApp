@@ -18,6 +18,7 @@ public:
     bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     void AddUnit();
+    void ReplaceData(OrderOfBattleData *newData);
 
 private:
     OrderOfBattleData *orderOfBattleData;
