@@ -1527,7 +1527,7 @@ color: rgb(0, 0, 0);</string>
 color: rgb(0, 0, 0);</string>
              </property>
              <property name="text">
-              <string>BATTLES PLAYED</string>
+              <string>BATTLES SURVIVED</string>
              </property>
              <property name="scaledContents">
               <bool>false</bool>
@@ -1764,43 +1764,7 @@ color: rgb(0, 0, 0);</string>
                <number>3</number>
               </property>
               <item>
-               <widget class="QPushButton" name="pushButtonSubstractEnemiesDestroyedBattleRoundAmount">
-                <property name="minimumSize">
-                 <size>
-                  <width>23</width>
-                  <height>23</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>25</width>
-                  <height>25</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Arial</family>
-                  <pointsize>14</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(230, 230, 230);</string>
-                </property>
-                <property name="text">
-                 <string>-</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="IntValueLineEdit" name="lineEditEnemiesDestroyedBattleRoundAmount">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
+               <widget class="QLabel" name="labelEnemiesDestroyedBattleRoundAmount">
                 <property name="font">
                  <font>
                   <family>Arial</family>
@@ -1812,41 +1776,8 @@ color: rgb(0, 0, 0);</string>
                 <property name="text">
                  <string>20</string>
                 </property>
-                <property name="frame">
-                 <bool>false</bool>
-                </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButtonAddEnemiesDestroyedBattleRoundAmount">
-                <property name="minimumSize">
-                 <size>
-                  <width>23</width>
-                  <height>23</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>25</width>
-                  <height>25</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Arial</family>
-                  <pointsize>14</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(230, 230, 230);</string>
-                </property>
-                <property name="text">
-                 <string>+</string>
                 </property>
                </widget>
               </item>
@@ -1864,43 +1795,7 @@ color: rgb(0, 0, 0);</string>
                <number>3</number>
               </property>
               <item>
-               <widget class="QPushButton" name="pushButtonSubstractEnemiesDestroyedTotalAmount">
-                <property name="minimumSize">
-                 <size>
-                  <width>23</width>
-                  <height>23</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>25</width>
-                  <height>25</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Arial</family>
-                  <pointsize>14</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(230, 230, 230);</string>
-                </property>
-                <property name="text">
-                 <string>-</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="IntValueLineEdit" name="lineEditEnemiesDestroyedTotalAmount">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
+               <widget class="QLabel" name="labelEnemiesDestroyedTotalAmount">
                 <property name="font">
                  <font>
                   <family>Arial</family>
@@ -1912,41 +1807,8 @@ color: rgb(0, 0, 0);</string>
                 <property name="text">
                  <string>20</string>
                 </property>
-                <property name="frame">
-                 <bool>false</bool>
-                </property>
                 <property name="alignment">
                  <set>Qt::AlignCenter</set>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButtonAddEnemiesDestroyedTotalAmount">
-                <property name="minimumSize">
-                 <size>
-                  <width>23</width>
-                  <height>23</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>25</width>
-                  <height>25</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Arial</family>
-                  <pointsize>14</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">background-color: rgb(230, 230, 230);</string>
-                </property>
-                <property name="text">
-                 <string>+</string>
                 </property>
                </widget>
               </item>
@@ -4046,22 +3908,6 @@ color: rgb(255, 255, 255);</string>
    </hints>
   </connection>
   <connection>
-   <sender>pushButtonSubstractEnemiesDestroyedBattleRoundAmount</sender>
-   <signal>clicked()</signal>
-   <receiver>lineEditEnemiesDestroyedBattleRoundAmount</receiver>
-   <slot>DecreaseValue()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>431</x>
-     <y>474</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>485</x>
-     <y>487</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>pushButtonSubstractEnemiesDestroyedPsychicBattleRoundAmount</sender>
    <signal>clicked()</signal>
    <receiver>lineEditEnemiesDestroyedPsychicBattleRoundAmount</receiver>
@@ -4154,22 +4000,6 @@ color: rgb(255, 255, 255);</string>
     <hint type="destinationlabel">
      <x>479</x>
      <y>657</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButtonAddEnemiesDestroyedBattleRoundAmount</sender>
-   <signal>clicked()</signal>
-   <receiver>lineEditEnemiesDestroyedBattleRoundAmount</receiver>
-   <slot>IncreaseValue()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>579</x>
-     <y>480</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>556</x>
-     <y>479</y>
     </hint>
    </hints>
   </connection>
@@ -4270,22 +4100,6 @@ color: rgb(255, 255, 255);</string>
    </hints>
   </connection>
   <connection>
-   <sender>pushButtonSubstractEnemiesDestroyedTotalAmount</sender>
-   <signal>clicked()</signal>
-   <receiver>lineEditEnemiesDestroyedTotalAmount</receiver>
-   <slot>DecreaseValue()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>621</x>
-     <y>483</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>649</x>
-     <y>486</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>pushButtonSubstractEnemiesDestroyedPsychicTotalAmount</sender>
    <signal>clicked()</signal>
    <receiver>lineEditEnemiesDestroyedPsychicTotalAmount</receiver>
@@ -4330,22 +4144,6 @@ color: rgb(255, 255, 255);</string>
     <hint type="destinationlabel">
      <x>653</x>
      <y>568</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButtonAddEnemiesDestroyedTotalAmount</sender>
-   <signal>clicked()</signal>
-   <receiver>lineEditEnemiesDestroyedTotalAmount</receiver>
-   <slot>IncreaseValue()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>766</x>
-     <y>475</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>744</x>
-     <y>481</y>
     </hint>
    </hints>
   </connection>

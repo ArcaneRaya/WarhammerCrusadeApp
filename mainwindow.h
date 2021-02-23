@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "unitcrusadedata.h"
+#include "orderofbattledata.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,11 +19,10 @@ public:
 
 private slots:
     void on_actionSave_triggered();
-
     void on_actionOpen_triggered();
 
 private:
     Ui::MainWindow *ui;
-    UnitCrusadeData * unitCrusadeData;
+    OrderOfBattleData * orderOfBattleData;
 };
 #endif // MAINWINDOW_H
