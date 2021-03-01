@@ -9,6 +9,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    classiccrusadewindow.cpp \
     intvaluelineedit.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
     unitcrusadedata.cpp
 
 HEADERS += \
+    classiccrusadewindow.h \
     intvaluelineedit.h \
     json.hpp \
     mainwindow.h \
@@ -29,6 +31,7 @@ HEADERS += \
     unitcrusadedata.h
 
 FORMS += \
+    classiccrusadewindow.ui \
     mainwindow.ui \
     orderofbattle.ui \
     unitcrusadecard.ui

@@ -40,8 +40,8 @@ void UnitCrusadeCard::OnNameChanged(const QString value)
     auto newValue = value.toStdString();
     if (data->name != newValue){
         data->name = newValue;
-        data->SetUnsaved();
-        OnDisplayValueChanged();
+        DataModified();
+        DisplayValueChanged();
     }
 }
 
@@ -50,8 +50,8 @@ void UnitCrusadeCard::OnBattleFieldRoleChanged(const QString value)
     auto newValue = value.toStdString();
     if (data->battleFieldRole != newValue){
         data->battleFieldRole = newValue;
-        data->SetUnsaved();
-        OnDisplayValueChanged();
+        DataModified();
+        DisplayValueChanged();
     }
 }
 
@@ -60,7 +60,7 @@ void UnitCrusadeCard::OnCrusadeFactionChanged(const QString value)
     auto newValue = value.toStdString();
     if(data->crusadeFaction != newValue){
         data->crusadeFaction = newValue;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -69,7 +69,7 @@ void UnitCrusadeCard::OnSelectableKeywordsChanged(const QString value)
     auto newValue = value.toStdString();
     if(data->selectableKeywords != newValue){
         data->selectableKeywords = newValue;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -78,8 +78,8 @@ void UnitCrusadeCard::OnUnitTypeChanged(const QString value)
     auto newValue = value.toStdString();
     if(data->unitType != newValue){
         data->unitType = newValue;
-        data->SetUnsaved();
-        OnDisplayValueChanged();
+        DataModified();
+        DisplayValueChanged();
     }
 }
 
@@ -88,7 +88,7 @@ void UnitCrusadeCard::OnEquipmentChanged(const QString value)
     auto newValue = value.toStdString();
     if(data->equipment != newValue){
         data->equipment = newValue;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -97,7 +97,7 @@ void UnitCrusadeCard::OnPsychicPowersChanged(const QString value)
     auto newValue = value.toStdString();
     if(data->psychicPowers != newValue){
         data->psychicPowers = newValue;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -106,7 +106,7 @@ void UnitCrusadeCard::OnWarlordTraitsChanged(const QString value)
     auto newValue = value.toStdString();
     if(data->warlordTraits != newValue){
         data->warlordTraits = newValue;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -115,7 +115,7 @@ void UnitCrusadeCard::OnRelicsChanged(const QString value)
     auto newValue = value.toStdString();
     if(data->relics != newValue){
         data->relics = newValue;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -123,8 +123,8 @@ void UnitCrusadeCard::OnPowerRatingChanged(int value)
 {
     if (data->powerRating != value){
         data->powerRating = value;
-        data->SetUnsaved();
-        OnDisplayValueChanged();
+        DataModified();
+        DisplayValueChanged();
     }
 }
 
@@ -132,7 +132,7 @@ void UnitCrusadeCard::OnExperiencePointsChanged(int value)
 {
     if (data->experiencePoints != value){
         data->experiencePoints = value;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -140,8 +140,8 @@ void UnitCrusadeCard::OnCrusadePointsChanged(int value)
 {
     if(data->crusadePoints != value){
         data->crusadePoints = value;
-        data->SetUnsaved();
-        OnDisplayValueChanged();
+        DataModified();
+        DisplayValueChanged();
     }
 }
 
@@ -150,7 +150,7 @@ void UnitCrusadeCard::OnUpgradesChanged()
     auto newValue = ui->plainTextEditUpgrades->toPlainText().toStdString();
     if (data->upgrades != newValue){
         data->upgrades = newValue;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -158,7 +158,7 @@ void UnitCrusadeCard::OnBattlesPlayedChanged(int value)
 {
     if (data->battlesPlayed != value){
         data->battlesPlayed = value;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -166,7 +166,7 @@ void UnitCrusadeCard::OnBattlesSurvivedChanged(int value)
 {
     if (data->battlesSurvived != value){
         data->battlesSurvived = value;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -174,7 +174,7 @@ void UnitCrusadeCard::OnEnemyUnitsDestroyedPsychicBattleroundChanged(int value)
 {
     if (data->enemyUnitsDestroyedPsychicBattleRound != value){
         data->enemyUnitsDestroyedPsychicBattleRound = value;
-        data->SetUnsaved();
+        DataModified();
         UpdateEnemyUnitsDestroyedBattleRoundTotal();
     }
 }
@@ -183,7 +183,7 @@ void UnitCrusadeCard::OnEnemyUnitsDestroyedRangedBattleroundChanged(int value)
 {
     if (data->enemyUnitsDestroyedRangedBattleRound != value){
         data->enemyUnitsDestroyedRangedBattleRound = value;
-        data->SetUnsaved();
+        DataModified();
         UpdateEnemyUnitsDestroyedBattleRoundTotal();
     }
 }
@@ -192,7 +192,7 @@ void UnitCrusadeCard::OnEnemyUnitsDestroyedMeleeBattleroundChanged(int value)
 {
     if (data->enemyUnitsDestroyedMeleeBattleRound != value){
         data->enemyUnitsDestroyedMeleeBattleRound = value;
-        data->SetUnsaved();
+        DataModified();
         UpdateEnemyUnitsDestroyedBattleRoundTotal();
     }
 }
@@ -201,7 +201,7 @@ void UnitCrusadeCard::OnEnemyUnitsDestroyedPsychicChanged(int value)
 {
     if (data->enemyUnitsDestroyedPsychic != value){
         data->enemyUnitsDestroyedPsychic = value;
-        data->SetUnsaved();
+        DataModified();
         UpdateEnemyUnitsDestroyedTotal();
     }
 }
@@ -210,7 +210,7 @@ void UnitCrusadeCard::OnEnemyUnitsDestroyedRangedChanged(int value)
 {
     if (data->enemyUnitsDestroyedRanged != value){
         data->enemyUnitsDestroyedRanged = value;
-        data->SetUnsaved();
+        DataModified();
         UpdateEnemyUnitsDestroyedTotal();
     }
 }
@@ -219,7 +219,7 @@ void UnitCrusadeCard::OnEnemyUnitsDestroyedMeleeChanged(int value)
 {
     if (data->enemyUnitsDestroyedMelee != value){
         data->enemyUnitsDestroyedMelee = value;
-        data->SetUnsaved();
+        DataModified();
         UpdateEnemyUnitsDestroyedTotal();
     }
 }
@@ -228,7 +228,7 @@ void UnitCrusadeCard::OnAgenda1TallyChanged(int value)
 {
     if (data->agenda1TallyBattleRound != value){
         data->agenda1TallyBattleRound = value;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -236,7 +236,7 @@ void UnitCrusadeCard::OnAgenda2TallyChanged(int value)
 {
     if (data->agenda2TallyBattleRound != value){
         data->agenda2TallyBattleRound = value;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -244,7 +244,7 @@ void UnitCrusadeCard::OnAgenda3TallyChanged(int value)
 {
     if (data->agenda3TallyBattleRound != value){
         data->agenda3TallyBattleRound = value;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -253,7 +253,7 @@ void UnitCrusadeCard::OnRankChanged(const QString value)
     auto newValue = value.toStdString();
     if(data->rank != newValue){
         data->rank = newValue;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -261,7 +261,7 @@ void UnitCrusadeCard::OnMarkedForGreatnessTallyChanged(int value)
 {
     if (data->markedForGreatnessTally != value){
         data->markedForGreatnessTally = value;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -270,7 +270,7 @@ void UnitCrusadeCard::OnBattleHonoursChanged()
     auto newValue = ui->plainTextEditBattleHonours->toPlainText().toStdString();
     if (data->battleHonours != newValue) {
         data->battleHonours = newValue;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 
@@ -279,7 +279,7 @@ void UnitCrusadeCard::OnBattleScarsChanged()
     auto newValue = ui->plainTextEditBattleScars->toPlainText().toStdString();
     if (data->battleScars != newValue) {
         data->battleScars = newValue;
-        data->SetUnsaved();
+        DataModified();
     }
 }
 

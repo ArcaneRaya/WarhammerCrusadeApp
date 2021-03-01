@@ -8,11 +8,11 @@ OrderOfBattle::OrderOfBattle(OrderOfBattleData *data, QWidget *parent) :
 {
     ui->setupUi(this);
     model = new OrderOfBattleUnitsModel(data, this);
+    ui->tableViewUnits->setModel(model);
 
     ConnectLinks();
     SetOrderOfBattleData(data);
-
-    ui->tableViewUnits->setModel(model);
+    currentSelectedRow = 0;
 }
 
 OrderOfBattle::~OrderOfBattle()
@@ -57,48 +57,85 @@ void OrderOfBattle::UpdateView()
 void OrderOfBattle::OnNameChanged(QString value)
 {
     data->name = value.toStdString();
-    data->SetUnsaved();
+    DataModified();
 }
 
 void OrderOfBattle::OnFactionChanged(QString value)
 {
     data->faction = value.toStdString();
-    data->SetUnsaved();
+    DataModified();
 }
 
 void OrderOfBattle::OnBattleTallyChanged(QString value)
 {
     data->battleTally = value.toInt();
-    data->SetUnsaved();
+    DataModified();
 }
 
 void OrderOfBattle::OnBattlesWonChanged(QString value)
 {
     data->battlesWon = value.toInt();
-    data->SetUnsaved();
+    DataModified();
 }
 
 void OrderOfBattle::OnRequisitionPointsChanged(QString value)
 {
     data->requisitionPoints = value.toInt();
-    data->SetUnsaved();
+    DataModified();
 }
 
 void OrderOfBattle::OnSupplyLimitChanged(QString value)
 {
     data->supplyLimit = value.toInt();
-    data->SetUnsaved();
+    DataModified();
 }
 
 void OrderOfBattle::OnTableItemClicked(const QModelIndex &index)
 {
-    UnitSelected(&this->data->units[index.row()]);
+    currentSelectedRow = index.row();
+    UnitSelected(&this->data->units[currentSelectedRow]);
 }
 
 void OrderOfBattle::OnPushButtonAddUnitClicked()
 {
     model->AddUnit();
-    UnitSelected(&data->units[data->units.size()-1]);
+    currentSelectedRow = data->units.size()-1;
+    ui->tableViewUnits->selectRow(currentSelectedRow);
+    UnitSelected(&data->units[currentSelectedRow]);
+    DataModified();
+}
+
+void OrderOfBattle::OnPushButtonRemoveSelectedUnitclicked()
+{
+    if (data->units.size() <= 1){
+        QMessageBox::warning(this, "Last Unit", "Cannot remove last unit in Order of Battle");
+        return;
+    }
+
+    QMessageBox messageBoxRemovalWarning;
+    messageBoxRemovalWarning.setIcon(QMessageBox::Warning);
+    messageBoxRemovalWarning.setWindowTitle("Unit Removal: " + QString::fromStdString(data->units[currentSelectedRow].name));
+    messageBoxRemovalWarning.setText("Are you sure you want to remove this unit? This action cannot be undone.");
+    messageBoxRemovalWarning.addButton("Remove Unit", QMessageBox::YesRole);
+    messageBoxRemovalWarning.addButton("Cancel", QMessageBox::NoRole);
+    messageBoxRemovalWarning.exec();
+
+    if(messageBoxRemovalWarning.buttonRole(messageBoxRemovalWarning.clickedButton()) == QMessageBox::NoRole){
+        return;
+    }
+
+    if (currentSelectedRow == 0){
+        UnitSelected(&data->units[1]);
+    } else {
+        UnitSelected(&data->units[0]);
+    }
+
+    model->RemoveUnit(currentSelectedRow);
+
+    currentSelectedRow = 0;
+    ui->tableViewUnits->selectRow(currentSelectedRow);
+    UnitSelected(&data->units[currentSelectedRow]);
+    DataModified();
 }
 
 void OrderOfBattle::ConnectLinks()
@@ -114,4 +151,5 @@ void OrderOfBattle::ConnectLinks()
     connect(ui->tableViewUnits, &QTableView::clicked, this, &OrderOfBattle::OnTableItemClicked);
 
     connect(ui->pushButtonAddUnit, &QPushButton::clicked, this, &OrderOfBattle::OnPushButtonAddUnitClicked);
+    connect(ui->pushButtonRemoveSelectedUnit, &QPushButton::clicked, this, &OrderOfBattle::OnPushButtonRemoveSelectedUnitclicked);
 }

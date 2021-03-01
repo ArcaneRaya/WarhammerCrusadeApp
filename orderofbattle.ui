@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>532</width>
+    <width>620</width>
     <height>774</height>
    </rect>
   </property>
@@ -967,7 +967,7 @@ color: rgb(255, 255, 255);</string>
       <widget class="QTableView" name="tableViewUnits">
        <property name="minimumSize">
         <size>
-         <width>500</width>
+         <width>600</width>
          <height>0</height>
         </size>
        </property>
@@ -995,6 +995,13 @@ color: rgb(255, 255, 255);</string>
       <widget class="QPushButton" name="pushButtonAddUnit">
        <property name="text">
         <string>Add Unit</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonRemoveSelectedUnit">
+       <property name="text">
+        <string>Remove Selected Unit</string>
        </property>
       </widget>
      </item>

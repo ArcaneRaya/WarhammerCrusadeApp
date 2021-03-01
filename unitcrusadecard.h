@@ -20,7 +20,8 @@ public:
     bool eventFilter(QObject *o, QEvent *ev);
 
 signals:
-    void OnDisplayValueChanged();
+    void DisplayValueChanged();
+    void DataModified();
 
 public slots:
     void OnUnitSelection(UnitCrusadeData *unit);

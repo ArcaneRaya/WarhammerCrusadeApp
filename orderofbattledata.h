@@ -8,9 +8,6 @@ class OrderOfBattleData
 {
 public:
     OrderOfBattleData();
-    bool HasUnsavedChanges();
-    void SetUnsaved();
-    void SetSaved();
 
     std::string name;
     std::string faction;
@@ -32,8 +29,6 @@ public:
             supplyLimit,
             units
             )
-private:
-    bool hasUnsavedChanges;
 };
 
 #endif // ORDEROFBATTLEDATA_H

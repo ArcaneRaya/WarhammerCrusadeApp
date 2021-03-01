@@ -6,13 +6,11 @@
 
 class UnitCrusadeData
 {
+
 public:
     UnitCrusadeData();
     int GetEnemyUnitsDestroyedTotal();
     int GetEnemyUnitsDestroyedBattleRoundTotal();
-    bool HasUnsavedChanges();
-    void SetUnsaved();
-    void SetSaved();
 
     // basic info
     std::string name;
@@ -84,9 +82,6 @@ public:
             markedForGreatnessTally,
             battleHonours,
             battleScars)
-
-private:
-        bool hasUnsavedChanges;
 
 };
 

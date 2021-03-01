@@ -29,7 +29,7 @@ QVariant OrderOfBattleUnitsModel::data(const QModelIndex &index, int role) const
         }
         if (index.column() == 1)
         {
-            return QString::fromStdString(this->orderOfBattleData->units[index.row()].name);
+            return QString::fromStdString(this->orderOfBattleData->units[index.row()].name) +" (" + QString::fromStdString(this->orderOfBattleData->units[index.row()].unitType) + ")";
         }
         if (index.column() == 2)
         {
@@ -65,10 +65,10 @@ QVariant OrderOfBattleUnitsModel::headerData(int section, Qt::Orientation orient
             result = "ROLE";
             break;
             case 3:
-            result = "POWER RATING";
+            result = "PL";
             break;
             case 4:
-            result = "CRUSADE POINTS";
+            result = "CRP";
             break;
             default:
             break;
@@ -89,6 +89,13 @@ void OrderOfBattleUnitsModel::AddUnit()
     beginInsertRows(QModelIndex(), this->orderOfBattleData->units.size() - 1, this->orderOfBattleData->units.size() - 1);
     this->orderOfBattleData->units.push_back(UnitCrusadeData());
     endInsertRows();
+}
+
+void OrderOfBattleUnitsModel::RemoveUnit(int index)
+{
+    beginRemoveRows(QModelIndex(), index, index);
+    this->orderOfBattleData->units.erase(this->orderOfBattleData->units.begin() + index);
+    endRemoveRows();
 }
 
 void OrderOfBattleUnitsModel::ReplaceData(OrderOfBattleData *newData)

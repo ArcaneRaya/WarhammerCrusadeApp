@@ -20,6 +20,7 @@ public:
 
 signals:
     void UnitSelected(UnitCrusadeData *unit);
+    void DataModified();
 
 public slots:
     void UpdateView();
@@ -29,6 +30,7 @@ private:
     Ui::OrderOfBattle *ui;
     OrderOfBattleData *data;
     OrderOfBattleUnitsModel *model ;
+    int currentSelectedRow;
 
 private slots:
     void OnNameChanged(QString value);
@@ -42,6 +44,7 @@ private slots:
     void OnTableItemClicked(const QModelIndex &index);
 
     void OnPushButtonAddUnitClicked();
+    void OnPushButtonRemoveSelectedUnitclicked();
 };
 
 #endif // ORDEROFBATTLE_H

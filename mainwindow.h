@@ -2,10 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QCloseEvent>
 #include "unitcrusadedata.h"
 #include "orderofbattledata.h"
-#include "unitcrusadecard.h"
-#include "orderofbattle.h"
+#include "classiccrusadewindow.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,16 +17,27 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void closeEvent(QCloseEvent *event) override;
     ~MainWindow();
 
 private slots:
-    void on_actionSave_triggered();
-    void on_actionOpen_triggered();
+    void OnActionNewTriggered();
+    void OnActionSaveTriggered();
+    void OnActionOpenTriggered();
+
+    void OnDataModified();
 
 private:
+    const QString APPLICATION_NAME = "CRUSADE EDITOR";
+
+    bool NeedSave();
+    void ConnectLinks();
+
     Ui::MainWindow *ui;
     OrderOfBattleData * orderOfBattleData;
-    OrderOfBattle * orderOfBattle;
-    UnitCrusadeCard * unitCrusadeCard;
+    ClassicCrusadeWindow * classicCrusadeWindow;
+
+    QString filePathCurrentOrderOfBattle;
+    bool hasUnsavedChanges;
 };
 #endif // MAINWINDOW_H

@@ -1,4 +1,3 @@
-#include <QtDebug>
 #include "unitcrusadedata.h"
 
 UnitCrusadeData::UnitCrusadeData()
@@ -25,8 +24,6 @@ UnitCrusadeData::UnitCrusadeData()
     this->enemyUnitsDestroyedMelee = 0;
 
     this->markedForGreatnessTally = 0;
-
-    hasUnsavedChanges = false;
 }
 
 int UnitCrusadeData::GetEnemyUnitsDestroyedTotal()
@@ -37,27 +34,4 @@ int UnitCrusadeData::GetEnemyUnitsDestroyedTotal()
 int UnitCrusadeData::GetEnemyUnitsDestroyedBattleRoundTotal()
 {
     return enemyUnitsDestroyedMeleeBattleRound + enemyUnitsDestroyedPsychicBattleRound + enemyUnitsDestroyedRangedBattleRound;
-}
-
-bool UnitCrusadeData::HasUnsavedChanges()
-{
-    if (hasUnsavedChanges){
-        qDebug() << "has unsaved changes: " + QString::fromStdString(name);
-    }
-    return hasUnsavedChanges;
-}
-
-void UnitCrusadeData::SetUnsaved()
-{
-    qDebug() << "set unsaved " + QString::fromStdString(name);
-    hasUnsavedChanges = true;
-}
-
-void UnitCrusadeData::SetSaved()
-{
-    qDebug() << "set saved " + QString::fromStdString(name);
-    hasUnsavedChanges = false;
-    if(hasUnsavedChanges){
-        qDebug() << "somehow not set correctly " + QString::fromStdString(name);
-    }
 }
