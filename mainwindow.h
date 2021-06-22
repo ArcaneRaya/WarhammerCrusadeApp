@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QCloseEvent>
+#include <QTimer>
 #include "unitcrusadedata.h"
 #include "orderofbattledata.h"
 #include "classiccrusadewindow.h"
@@ -26,6 +27,7 @@ private slots:
     void OnActionSaveTriggered();
     void OnActionSaveAsTriggered();
     void OnActionOpenTriggered();
+    void AutoSave();
     void SaveUsingPath(QString path);
 
     void OnDataModified();
@@ -37,6 +39,7 @@ private:
     void ConnectLinks();
     void LoadRuntimeData();
 
+    QTimer *autosaveTimer;
     Ui::MainWindow *ui;
     ClassicCrusadeWindow * classicCrusadeWindow;
     RuntimeData * runtimeData;

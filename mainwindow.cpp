@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent)
     LoadRuntimeData();
 
     classicCrusadeWindow = new ClassicCrusadeWindow(runtimeData, this);
+    autosaveTimer = new QTimer(this);
+    autosaveTimer->setSingleShot(true);
+    autosaveTimer->setInterval(1000);
 
     ui->tabWidget->addTab(classicCrusadeWindow, "Classic");
 
@@ -195,7 +198,8 @@ void MainWindow::ConnectLinks()
     connect(ui->actionNew, &QAction::triggered, this, &MainWindow::OnActionNewTriggered);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::OnActionSaveTriggered);
     connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::OnActionSaveAsTriggered);
-    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::OnActionOpenTriggered);
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::OnActionOpenTriggered);\
+    connect(autosaveTimer, &QTimer::timeout, this, &MainWindow::AutoSave);
 
     connect(classicCrusadeWindow, &ClassicCrusadeWindow::DataModified, this, &MainWindow::OnDataModified);
 }
@@ -226,9 +230,19 @@ void MainWindow::LoadRuntimeData()
     ui->statusbar->showMessage("loaded general data");
 }
 
+void MainWindow::AutoSave()
+{
+    if (runtimeData->filePathCurrentOrderOfBattle.isEmpty() == false){
+        SaveUsingPath(runtimeData->filePathCurrentOrderOfBattle);
+    }
+}
+
 void MainWindow::OnDataModified()
 {
     runtimeData->currentOrderOfBattleHasUnsavedChanges = true;
     setWindowTitle(APPLICATION_NAME + " - " + QString::fromStdString(runtimeData->orderOfBattleData->name) + "*");
     ui->statusbar->showMessage("data modified");
+
+    autosaveTimer->stop();
+    autosaveTimer->start(1000);
 }
