@@ -5,6 +5,7 @@
 #include "orderofbattledata.h"
 #include "orderofbattle.h"
 #include "unitcrusadecard.h"
+#include "runtimedata.h"
 
 namespace Ui {
 class ClassicCrusadeWindow;
@@ -15,10 +16,10 @@ class ClassicCrusadeWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit ClassicCrusadeWindow(OrderOfBattleData * orderOfBattleData, QWidget *parent = nullptr);
+    explicit ClassicCrusadeWindow(RuntimeData * runtimeData, QWidget *parent = nullptr);
     ~ClassicCrusadeWindow();
 
-    void SetOrderOfBattleData(OrderOfBattleData * data);
+    void SetOrderOfBattleData(RuntimeData * data);
 
 signals:
     void DataModified();

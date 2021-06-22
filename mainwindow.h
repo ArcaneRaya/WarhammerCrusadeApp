@@ -6,6 +6,7 @@
 #include "unitcrusadedata.h"
 #include "orderofbattledata.h"
 #include "classiccrusadewindow.h"
+#include "runtimedata.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -23,7 +24,9 @@ public:
 private slots:
     void OnActionNewTriggered();
     void OnActionSaveTriggered();
+    void OnActionSaveAsTriggered();
     void OnActionOpenTriggered();
+    void SaveUsingPath(QString path);
 
     void OnDataModified();
 
@@ -32,12 +35,10 @@ private:
 
     bool NeedSave();
     void ConnectLinks();
+    void LoadRuntimeData();
 
     Ui::MainWindow *ui;
-    OrderOfBattleData * orderOfBattleData;
     ClassicCrusadeWindow * classicCrusadeWindow;
-
-    QString filePathCurrentOrderOfBattle;
-    bool hasUnsavedChanges;
+    RuntimeData * runtimeData;
 };
 #endif // MAINWINDOW_H

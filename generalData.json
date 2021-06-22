@@ -1,0 +1,40 @@
+{
+	"roles": [
+	{
+		"name": "HQ",
+		"index": 0
+	},
+	{
+                "name": "TROOPS",
+		"index": 1
+	},
+	{
+                "name": "ELITES",
+		"index": 2
+	},
+	{
+                "name": "FAST ATTACK",
+		"index": 3
+        },
+        {
+                "name": "FLYER",
+                "index": 4
+        },
+        {
+                "name": "HEAVY SUPPORT",
+                "index": 5
+        },
+        {
+                "name": "FORTIFICATION",
+                "index": 6
+        },
+        {
+                "name": "DED TRANSPORT",
+                "index": 7
+        },
+        {
+                "name": "LORD OF WAR",
+                "index": 8
+        }
+	]
+}

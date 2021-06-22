@@ -84,6 +84,11 @@ QVariant OrderOfBattleUnitsModel::headerData(int section, Qt::Orientation orient
     return result;
 }
 
+void OrderOfBattleUnitsModel::sort(int column, Qt::SortOrder order)
+{
+
+}
+
 void OrderOfBattleUnitsModel::AddUnit()
 {
     beginInsertRows(QModelIndex(), this->orderOfBattleData->units.size() - 1, this->orderOfBattleData->units.size() - 1);

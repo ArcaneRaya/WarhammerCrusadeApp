@@ -1,16 +1,22 @@
 #include "classiccrusadewindow.h"
 #include "ui_classiccrusadewindow.h"
 
-ClassicCrusadeWindow::ClassicCrusadeWindow(OrderOfBattleData * orderOfBattleData, QWidget *parent) :
+ClassicCrusadeWindow::ClassicCrusadeWindow(RuntimeData * runtimeData, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ClassicCrusadeWindow)
 {
     ui->setupUi(this);
 
-    unitCrusadeCard = new UnitCrusadeCard(&orderOfBattleData->units[0], this);
+    unitCrusadeCard = new UnitCrusadeCard(this);
     ui->scrollAreaUnitCard->setWidget(unitCrusadeCard);
-    orderOfBattle = new OrderOfBattle(orderOfBattleData, this);
+    // TODO: set roles in sort model
+    orderOfBattle = new OrderOfBattle(runtimeData, this);
     ui->scrollAreaOrderOfBattle->setWidget(orderOfBattle);
+
+    QStringList battlefieldRoleOptions;
+    runtimeData->generalData->GetBattlefieldRolesStringList(&battlefieldRoleOptions);
+    unitCrusadeCard->SetBattlefieldRoleOptions(&battlefieldRoleOptions);
+    unitCrusadeCard->setVisible(false);
 
     ConnectLinks();
 }
@@ -20,7 +26,7 @@ ClassicCrusadeWindow::~ClassicCrusadeWindow()
     delete ui;
 }
 
-void ClassicCrusadeWindow::SetOrderOfBattleData(OrderOfBattleData *data)
+void ClassicCrusadeWindow::SetOrderOfBattleData(RuntimeData *data)
 {
     orderOfBattle->SetOrderOfBattleData(data);
 }

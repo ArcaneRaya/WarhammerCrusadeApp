@@ -4,6 +4,8 @@
 #include <QWidget>
 #include "orderofbattledata.h"
 #include "orderofbattleunitsmodel.h"
+#include "oobsortfilterproxymodel.h"
+#include "runtimedata.h"
 
 namespace Ui {
 class OrderOfBattle;
@@ -14,9 +16,9 @@ class OrderOfBattle : public QWidget
     Q_OBJECT
 
 public:
-    explicit OrderOfBattle(OrderOfBattleData *data, QWidget *parent = nullptr);
+    explicit OrderOfBattle(RuntimeData *data, QWidget *parent = nullptr);
     ~OrderOfBattle();
-    void SetOrderOfBattleData(OrderOfBattleData *data);
+    void SetOrderOfBattleData(RuntimeData *data);
 
 signals:
     void UnitSelected(UnitCrusadeData *unit);
@@ -28,7 +30,8 @@ public slots:
 private:
     void ConnectLinks();
     Ui::OrderOfBattle *ui;
-    OrderOfBattleData *data;
+    RuntimeData *data;
+    OoBSortFilterProxyModel *sortModel;
     OrderOfBattleUnitsModel *model ;
     int currentSelectedRow;
 

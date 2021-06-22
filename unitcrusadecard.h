@@ -2,6 +2,7 @@
 #define UNITCRUSADECARD_H
 
 #include <QWidget>
+#include <vector>
 
 #include "unitcrusadedata.h"
 
@@ -14,9 +15,10 @@ class UnitCrusadeCard : public QWidget
     Q_OBJECT
 
 public:
-    explicit UnitCrusadeCard(UnitCrusadeData *data, QWidget *parent = nullptr);
+    explicit UnitCrusadeCard(QWidget *parent = nullptr);
     ~UnitCrusadeCard();
 
+    void SetBattlefieldRoleOptions(const QStringList * options);
     bool eventFilter(QObject *o, QEvent *ev);
 
 signals:
@@ -70,8 +72,12 @@ private:
     void UpdateEnemyUnitsDestroyedBattleRoundTotal();
     void UpdateEnemyUnitsDestroyedTotal();
     void ConnectLinks();
+    void DisconnectLinks();
+
     Ui::UnitCrusadeCard *ui;
     UnitCrusadeData *data;
+    std::vector<QMetaObject::Connection> activeConnections;
+    bool isConnected = false;
 };
 
 #endif // UNITCRUSADECARD_H

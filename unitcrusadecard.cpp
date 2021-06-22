@@ -1,7 +1,7 @@
 #include "unitcrusadecard.h"
 #include "ui_unitcrusadecard.h"
 
-UnitCrusadeCard::UnitCrusadeCard(UnitCrusadeData *data, QWidget *parent) :
+UnitCrusadeCard::UnitCrusadeCard(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::UnitCrusadeCard)
 {
@@ -9,15 +9,22 @@ UnitCrusadeCard::UnitCrusadeCard(UnitCrusadeData *data, QWidget *parent) :
     ui->comboBoxRank->installEventFilter(this);
     ui->comboBoxRole->installEventFilter(this);
 
-    this->data = data;
+    ui->comboBoxRole->clear();
+
+    this->data = nullptr;
 
     UpdateView();
-    ConnectLinks();
 }
 
 UnitCrusadeCard::~UnitCrusadeCard()
 {
     delete ui;
+}
+
+void UnitCrusadeCard::SetBattlefieldRoleOptions(const QStringList * options)
+{
+    ui->comboBoxRole->clear();
+    ui->comboBoxRole->insertItems(0 ,*options);
 }
 
 bool UnitCrusadeCard::eventFilter(QObject *targetQObject, QEvent *currentEvent)
@@ -32,6 +39,15 @@ bool UnitCrusadeCard::eventFilter(QObject *targetQObject, QEvent *currentEvent)
 void UnitCrusadeCard::OnUnitSelection(UnitCrusadeData *unit)
 {
     data = unit;
+    if (data != nullptr){
+        if (isConnected == false) {
+            ConnectLinks();
+        }
+    } else {
+        if (isConnected) {
+            DisconnectLinks();
+        }
+    }
     UpdateView();
 }
 
@@ -285,6 +301,13 @@ void UnitCrusadeCard::OnBattleScarsChanged()
 
 void UnitCrusadeCard::UpdateView()
 {
+    if(data == nullptr)
+    {
+        setVisible(false);
+        return;
+    }
+    setVisible(true);
+
     ui->lineEditName->setText(QString::fromStdString(data->name));
     ui->comboBoxRole->setCurrentText(QString::fromStdString(data->battleFieldRole));
     ui->lineEditCrusadeFaction->setText(QString::fromStdString(data->crusadeFaction));
@@ -334,40 +357,52 @@ void UnitCrusadeCard::UpdateEnemyUnitsDestroyedTotal()
 void UnitCrusadeCard::ConnectLinks()
 {
     // info
-    connect(ui->lineEditName, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnNameChanged);
-    connect(ui->comboBoxRole, &QComboBox::currentTextChanged, this, &UnitCrusadeCard::OnBattleFieldRoleChanged);
-    connect(ui->lineEditCrusadeFaction, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnCrusadeFactionChanged);
-    connect(ui->lineEditSelectableKeywords, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnSelectableKeywordsChanged);
-    connect(ui->lineEditUnitType, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnUnitTypeChanged);
-    connect(ui->lineEditEquipment, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnEquipmentChanged);
-    connect(ui->lineEditPsychicPowers, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnPsychicPowersChanged);
-    connect(ui->lineEditWarlordTraits, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnWarlordTraitsChanged);
-    connect(ui->lineEditRelics, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnRelicsChanged);
+    activeConnections.push_back(connect(ui->lineEditName, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnNameChanged));
+    activeConnections.push_back(connect(ui->comboBoxRole, &QComboBox::currentTextChanged, this, &UnitCrusadeCard::OnBattleFieldRoleChanged));
+    activeConnections.push_back(connect(ui->lineEditCrusadeFaction, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnCrusadeFactionChanged));
+    activeConnections.push_back(connect(ui->lineEditSelectableKeywords, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnSelectableKeywordsChanged));
+    activeConnections.push_back(connect(ui->lineEditUnitType, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnUnitTypeChanged));
+    activeConnections.push_back(connect(ui->lineEditEquipment, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnEquipmentChanged));
+    activeConnections.push_back(connect(ui->lineEditPsychicPowers, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnPsychicPowersChanged));
+    activeConnections.push_back(connect(ui->lineEditWarlordTraits, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnWarlordTraitsChanged));
+    activeConnections.push_back(connect(ui->lineEditRelics, &QLineEdit::textChanged, this, &UnitCrusadeCard::OnRelicsChanged));
 
     // points
-    connect(ui->lineEditPowerRatingAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnPowerRatingChanged);
-    connect(ui->lineEditExperienceAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnExperiencePointsChanged);
-    connect(ui->lineEditCrusadePointsAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnCrusadePointsChanged);
-    connect(ui->plainTextEditUpgrades, &QPlainTextEdit::textChanged, this, &UnitCrusadeCard::OnUpgradesChanged);
+    activeConnections.push_back(connect(ui->lineEditPowerRatingAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnPowerRatingChanged));
+    activeConnections.push_back(connect(ui->lineEditExperienceAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnExperiencePointsChanged));
+    activeConnections.push_back(connect(ui->lineEditCrusadePointsAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnCrusadePointsChanged));
+    activeConnections.push_back(connect(ui->plainTextEditUpgrades, &QPlainTextEdit::textChanged, this, &UnitCrusadeCard::OnUpgradesChanged));
 
     // combat tallies
-    connect(ui->lineEditBattlesPlayedAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnBattlesPlayedChanged);
-    connect(ui->lineEditBattlesSurvivedAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnBattlesSurvivedChanged);
+    activeConnections.push_back(connect(ui->lineEditBattlesPlayedAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnBattlesPlayedChanged));
+    activeConnections.push_back(connect(ui->lineEditBattlesSurvivedAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnBattlesSurvivedChanged));
 
-    connect(ui->lineEditEnemiesDestroyedPsychicBattleRoundAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedPsychicBattleroundChanged);
-    connect(ui->lineEditEnemiesDestroyedRangedBattleRoundAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedRangedBattleroundChanged);
-    connect(ui->lineEditEnemiesDestroyedMeleeBattleRoundAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedMeleeBattleroundChanged);
-    connect(ui->lineEditEnemiesDestroyedPsychicTotalAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedPsychicChanged);
-    connect(ui->lineEditEnemiesDestroyedRangedTotalAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedRangedChanged);
-    connect(ui->lineEditEnemiesDestroyedMeleeTotalAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedMeleeChanged);
+    activeConnections.push_back(connect(ui->lineEditEnemiesDestroyedPsychicBattleRoundAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedPsychicBattleroundChanged));
+    activeConnections.push_back(connect(ui->lineEditEnemiesDestroyedRangedBattleRoundAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedRangedBattleroundChanged));
+    activeConnections.push_back(connect(ui->lineEditEnemiesDestroyedMeleeBattleRoundAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedMeleeBattleroundChanged));
+    activeConnections.push_back(connect(ui->lineEditEnemiesDestroyedPsychicTotalAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedPsychicChanged));
+    activeConnections.push_back(connect(ui->lineEditEnemiesDestroyedRangedTotalAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedRangedChanged));
+    activeConnections.push_back(connect(ui->lineEditEnemiesDestroyedMeleeTotalAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnEnemyUnitsDestroyedMeleeChanged));
 
-    connect(ui->lineEditAgenda1TallyAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnAgenda1TallyChanged);
-    connect(ui->lineEditAgenda2TallyAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnAgenda2TallyChanged);
-    connect(ui->lineEditAgenda3TallyAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnAgenda3TallyChanged);
+    activeConnections.push_back(connect(ui->lineEditAgenda1TallyAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnAgenda1TallyChanged));
+    activeConnections.push_back(connect(ui->lineEditAgenda2TallyAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnAgenda2TallyChanged));
+    activeConnections.push_back(connect(ui->lineEditAgenda3TallyAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnAgenda3TallyChanged));
 
     // rank
-    connect(ui->comboBoxRank, &QComboBox::currentTextChanged, this, &UnitCrusadeCard::OnRankChanged);
-    connect(ui->lineEditMarkedForGreatnessTallyAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnMarkedForGreatnessTallyChanged);
-    connect(ui->plainTextEditBattleHonours, &QPlainTextEdit::textChanged, this, &UnitCrusadeCard::OnBattleHonoursChanged);
-    connect(ui->plainTextEditBattleScars, &QPlainTextEdit::textChanged, this, &UnitCrusadeCard::OnBattleScarsChanged);
+    activeConnections.push_back(connect(ui->comboBoxRank, &QComboBox::currentTextChanged, this, &UnitCrusadeCard::OnRankChanged));
+    activeConnections.push_back(connect(ui->lineEditMarkedForGreatnessTallyAmount, &IntValueLineEdit::IntValueChanged, this, &UnitCrusadeCard::OnMarkedForGreatnessTallyChanged));
+    activeConnections.push_back(connect(ui->plainTextEditBattleHonours, &QPlainTextEdit::textChanged, this, &UnitCrusadeCard::OnBattleHonoursChanged));
+    activeConnections.push_back(connect(ui->plainTextEditBattleScars, &QPlainTextEdit::textChanged, this, &UnitCrusadeCard::OnBattleScarsChanged));
+
+    isConnected = true;
+}
+
+void UnitCrusadeCard::DisconnectLinks()
+{
+    for (int i = activeConnections.size() - 1; i >= 0 ;i--)
+    {
+        disconnect(activeConnections[i]);
+    }
+    activeConnections.clear();
+    isConnected = false;
 }

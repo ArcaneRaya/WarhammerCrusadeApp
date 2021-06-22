@@ -17,6 +17,8 @@ public:
     QModelIndex parent(const QModelIndex &child) const;
     bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
+
     void AddUnit();
     void RemoveUnit(int index);
     void ReplaceData(OrderOfBattleData *newData);

@@ -12,23 +12,22 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    orderOfBattleData = new OrderOfBattleData();
-    orderOfBattleData->units.push_back(UnitCrusadeData());
-
     ui->setupUi(this);
 
-    classicCrusadeWindow = new ClassicCrusadeWindow(orderOfBattleData, this);
+    LoadRuntimeData();
+
+    classicCrusadeWindow = new ClassicCrusadeWindow(runtimeData, this);
 
     ui->tabWidget->addTab(classicCrusadeWindow, "Classic");
 
     ConnectLinks();
 
-    setWindowTitle(APPLICATION_NAME + " - " + QString::fromStdString(orderOfBattleData->name));
+    setWindowTitle(APPLICATION_NAME + " - " + QString::fromStdString(runtimeData->orderOfBattleData->name));
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (hasUnsavedChanges){
+    if (runtimeData->currentOrderOfBattleHasUnsavedChanges){
         QMessageBox closeWithUnsavedChangesWarning;
         closeWithUnsavedChangesWarning.setIcon(QMessageBox::Warning);
         closeWithUnsavedChangesWarning.setWindowTitle("Unsaved Changes");
@@ -48,7 +47,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 MainWindow::~MainWindow()
 {
-    delete this->orderOfBattleData;
+    delete this->runtimeData->generalData;
+    delete this->runtimeData->orderOfBattleData;
+    delete this->runtimeData;
     delete ui;
 }
 
@@ -58,17 +59,15 @@ void MainWindow::OnActionNewTriggered()
         return;
     }
 
+    OrderOfBattleData * previousOrderOfBattle = runtimeData->orderOfBattleData;
+    runtimeData->orderOfBattleData = new OrderOfBattleData();
+    runtimeData->orderOfBattleData->units.push_back(UnitCrusadeData());
 
-    OrderOfBattleData * datapointer = new OrderOfBattleData();
-    datapointer->units.push_back(UnitCrusadeData());
+    classicCrusadeWindow->SetOrderOfBattleData(runtimeData);
 
-    classicCrusadeWindow->SetOrderOfBattleData(datapointer);
+    delete previousOrderOfBattle;
 
-    delete orderOfBattleData;
-
-    orderOfBattleData = datapointer;
-
-    filePathCurrentOrderOfBattle = "";
+    runtimeData->filePathCurrentOrderOfBattle = "";
 
     ui->statusbar->showMessage("New Order of Battle Created");
 }
@@ -76,39 +75,26 @@ void MainWindow::OnActionNewTriggered()
 
 void MainWindow::OnActionSaveTriggered()
 {
-    if(filePathCurrentOrderOfBattle.isEmpty()){
-        filePathCurrentOrderOfBattle = QFileDialog::getSaveFileName(this, QString(), QString(),"JSON files (*.json)");
+    if(runtimeData->filePathCurrentOrderOfBattle.isEmpty()){
+        runtimeData->filePathCurrentOrderOfBattle = QFileDialog::getSaveFileName(this, QString(), QString(),"Order of Battle files (*.OoB)");
     }
 
-    if (filePathCurrentOrderOfBattle.isEmpty()){
+    SaveUsingPath(runtimeData->filePathCurrentOrderOfBattle);
+}
+
+void MainWindow::OnActionSaveAsTriggered()
+{
+    QString queriedPath = QFileDialog::getSaveFileName(this, QString(), QString(),"Order of Battle files (*.OoB)");
+
+    if (queriedPath.isEmpty()){
         ui->statusbar->showMessage("need valid file path");
         QMessageBox::warning(this, "Invalid Path", "Provided path is invalid, cannot save");
         return;
     }
 
-    ui->statusbar->showMessage("saving...");
-    nlohmann::json json = *this->orderOfBattleData;
+    runtimeData->filePathCurrentOrderOfBattle = queriedPath;
 
-
-    QFile mFile(filePathCurrentOrderOfBattle);
-    if(!mFile.open(QFile::WriteOnly | QFile::Text))
-    {
-        ui->statusbar->showMessage("could not open for writing");
-        return;
-    }
-
-    QTextStream out(&mFile);
-    QString jsonString = QString::fromStdString(json.dump(4));
-    out << jsonString;
-
-    mFile.flush();
-    mFile.close();
-
-    hasUnsavedChanges = false;
-
-    setWindowTitle(APPLICATION_NAME + " - " + QString::fromStdString(orderOfBattleData->name));
-
-    ui->statusbar->showMessage("saved");
+    SaveUsingPath(runtimeData->filePathCurrentOrderOfBattle);
 }
 
 void MainWindow::OnActionOpenTriggered()
@@ -117,7 +103,7 @@ void MainWindow::OnActionOpenTriggered()
         return;
     }
 
-    QString filePath = QFileDialog::getOpenFileName(this, QString(), QString(),"JSON files (*.json)");
+    QString filePath = QFileDialog::getOpenFileName(this, QString(), QString(),"Order of Battle files (*.OoB *Json)");
     if (filePath.isEmpty()){
         ui->statusbar->showMessage("need valid file path");
         QMessageBox::warning(this, "Invalid Path", "Provided path is invalid, cannot open");
@@ -136,23 +122,56 @@ void MainWindow::OnActionOpenTriggered()
     mFile.close();
 
     nlohmann::json json = nlohmann::json::parse(mText.toStdString());
-    OrderOfBattleData * datapointer = new OrderOfBattleData();
-    json.get_to(*datapointer);
 
-    classicCrusadeWindow->SetOrderOfBattleData(datapointer);
+    OrderOfBattleData * previousOrderOfBattleData = runtimeData->orderOfBattleData;
+    runtimeData->orderOfBattleData = new OrderOfBattleData();
+    json.get_to(*runtimeData->orderOfBattleData);
 
-    delete orderOfBattleData;
+    classicCrusadeWindow->SetOrderOfBattleData(runtimeData);
 
-    orderOfBattleData = datapointer;
+    delete previousOrderOfBattleData;
 
-    filePathCurrentOrderOfBattle = filePath;
+    runtimeData->filePathCurrentOrderOfBattle = filePath;
 
-    ui->statusbar->showMessage("loaded " + QString::fromStdString(datapointer->name));
+    ui->statusbar->showMessage("loaded " + QString::fromStdString(runtimeData->orderOfBattleData->name));
+}
+
+void MainWindow::SaveUsingPath(QString path)
+{
+    if (path.isEmpty()){
+        ui->statusbar->showMessage("need valid file path");
+        QMessageBox::warning(this, "Invalid Path", "Provided path is invalid, cannot save");
+        return;
+    }
+
+    ui->statusbar->showMessage("saving...");
+    nlohmann::json json = *this->runtimeData->orderOfBattleData;
+
+
+    QFile mFile(path);
+    if(!mFile.open(QFile::WriteOnly | QFile::Text))
+    {
+        ui->statusbar->showMessage("could not open for writing");
+        return;
+    }
+
+    QTextStream out(&mFile);
+    QString jsonString = QString::fromStdString(json.dump(4));
+    out << jsonString;
+
+    mFile.flush();
+    mFile.close();
+
+    runtimeData->currentOrderOfBattleHasUnsavedChanges = false;
+
+    setWindowTitle(APPLICATION_NAME + " - " + QString::fromStdString(runtimeData->orderOfBattleData->name));
+
+    ui->statusbar->showMessage("saved");
 }
 
 bool MainWindow::NeedSave()
 {
-    if (hasUnsavedChanges)
+    if (runtimeData->currentOrderOfBattleHasUnsavedChanges)
     {
         ui->statusbar->showMessage("Order of Battle has unsaved changes");
         QMessageBox messageBoxUnsavedChanges;
@@ -175,14 +194,41 @@ void MainWindow::ConnectLinks()
 {
     connect(ui->actionNew, &QAction::triggered, this, &MainWindow::OnActionNewTriggered);
     connect(ui->actionSave, &QAction::triggered, this, &MainWindow::OnActionSaveTriggered);
+    connect(ui->actionSave_As, &QAction::triggered, this, &MainWindow::OnActionSaveAsTriggered);
     connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::OnActionOpenTriggered);
 
     connect(classicCrusadeWindow, &ClassicCrusadeWindow::DataModified, this, &MainWindow::OnDataModified);
 }
 
+void MainWindow::LoadRuntimeData()
+{
+    runtimeData = new RuntimeData();
+    runtimeData->generalData = new GeneralCrusadeData();
+
+    runtimeData->orderOfBattleData = new OrderOfBattleData();
+    runtimeData->orderOfBattleData->units.push_back(UnitCrusadeData());
+
+    QString generalDataFilePath = ":/data/generalData.json";
+
+    QFile mFile(generalDataFilePath);
+    if(!mFile.open(QFile::ReadOnly | QFile::Text))
+    {
+        ui->statusbar->showMessage("could not open general data file for reading");
+        return;
+    }
+    QTextStream in(&mFile);
+    QString mText = in.readAll();
+    mFile.close();
+
+    nlohmann::json json = nlohmann::json::parse(mText.toStdString());
+    json.get_to(*runtimeData->generalData);
+
+    ui->statusbar->showMessage("loaded general data");
+}
+
 void MainWindow::OnDataModified()
 {
-    hasUnsavedChanges = true;
-    setWindowTitle(APPLICATION_NAME + " - " + QString::fromStdString(orderOfBattleData->name) + "*");
+    runtimeData->currentOrderOfBattleHasUnsavedChanges = true;
+    setWindowTitle(APPLICATION_NAME + " - " + QString::fromStdString(runtimeData->orderOfBattleData->name) + "*");
     ui->statusbar->showMessage("data modified");
 }
